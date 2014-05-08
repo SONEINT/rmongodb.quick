@@ -2,34 +2,34 @@
 \alias{mongo.find.all2}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Conversion of Waters' .raw data.
+Finds records in a collection and returns one R list or data.frame object.
 }
 \description{
-This functions converts waters' .raw files to mzData. This function is slow and only exists because other conversion software does not currently correctly remove lockmass scans (masswolf) or does not give calibrated data (ProteoWizard).
-The function uses masswolf which needs to be in path. MassLynx also needs to be installed.
-This function does the conversion and subsequently removes the lockscan masses that are intertwined in the data from masswolf.
+Finds records in a collection that match a given query and returns a list or an R data frame object. This is a modified version of the official \link{mongo.find.all}. In contrast to the original function a list can be returned instead of a \link{data.frame} and mongo.oid are not destroyed when converting to a data.frame if mongo.oid2character is TRUE.
 }
 \usage{
-convert.waters(indir,outdir)
+mongo.find.all2(mongo, ns, query, fields=mongo.bson.empty(),   data.frame=FALSE, mongo.oid2character = FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-  \item{indir}{Folder with waters .raw files.}
-  \item{outdir}{Folder where the mzData files should be written.}
+  \item{mongo}{(\link{mongo}) a mongo connection object.}
+  \item{ns}{(string) namespace of the collection from which to find records.}
+  \item{query}{(\link{mongo.bson}) The criteria with which to match the records to be found.}
+  \item{fields}{(\link{mongo.bson}) The desired fields which are to be returned from the matching record. The default of mongo.bson.empty() will cause all fields of   the matching record to be returned; however, specific fields may be specified to cut down on network traffic and memory overhead.}
+   \item{data.frame}{(boolean) If TRUE the result will be an \link{data.frame} object.}
+  \item{mongo.oid2character}{(boolean) If TRUE the mongo.oid returned in the _id field will be converted to a character vector. Neccesary for correct output if \link{data.frame} is TRUE.}
 }
 \details{
 %%  ~~ If necessary, more details than the description above ~~
 }
-\value{None}
+\value{An R list or an R \link{data.frame} object.}
 \references{
 %% ~put references to the literature/web site here ~
 }
 \author{
 Jan Stanstrup, \email{stanstrup@gmail.com}
 }
-\note{
-This should probably be changed to accept files instead of folders. But then it would also be needed to be able to specify an output folder for each file.
-}
+\note{}
 
 %% ~Make other sections like Warning with \section{Warning }{....} ~
 
@@ -37,47 +37,7 @@ This should probably be changed to accept files instead of folders. But then it 
 %% ~~objects to See Also as \code{\link{help}}, ~~~
 }
 \examples{
-\dontrun{
-## Convert all files in a single folder
-convert.waters(indir,outdir)
-}
 
-
-
-
-\dontrun{
-## Convert files in parallel
-library(chemhelper)
-library(stringr)
-library(parallel)
-
-
-#list of folders with files to convert
-indir_list=c("Standards_May2013/Standards4/Data",
-             "Standards_Sept-12/Data"
-        )
-
-indir=paste("D:/root_path/raw/",indir_list,"/",sep="")
-
-# Now we make a list of matching output folders
-outdir=paste("D:/root_path/Converted/",indir_list,"/",sep="")
-outdir=str_replace(outdir,"/Data","")
-outdir=str_replace(outdir,"/data","")
-
-
-# combine indir and outdir in a list so it can be passed to apply functions
-arg_list=list()
-for (i in 1:length(indir)){
-arg_list[[i]]=c(indir[i],outdir[i])
-}
-
-
-# Do parallel conversion
-cl <- makeCluster(getOption("cl.cores", 2))
-clusterExport(cl, "convert.waters")
-parLapplyLB(cl,arg_list,function(x) convert.waters(x[1],x[2]))
-stopCluster(cl)
-}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.
