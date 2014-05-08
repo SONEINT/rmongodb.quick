@@ -1,0 +1,12 @@
+# Export all functions
+export(dataframe2bson,
+       mongo.find.all2
+       )
+
+
+# Import all packages listed as Imports or Depends
+importFrom(rmongodb,"mongo.bson.buffer.create","mongo.bson.buffer.append","mongo.bson.from.buffer","mongo.find","mongo.cursor.next","mongo.bson.to.list","mongo.cursor.value","as.character.mongo.oid")
+
+
+
+

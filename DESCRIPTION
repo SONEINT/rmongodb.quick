@@ -1,0 +1,14 @@
+Package: rmongodb.quick
+Version: 0.01
+Date: 2014-05-08
+Title: rmongodb_quick
+Author: Jan Stanstrup <jan.stanstrup@fmach.it>
+Maintainer: Jan Stanstrup <jan.stanstrup@fmach.it>
+Depends: R (>= 2.14.0), rmongodb
+Suggests: 
+Imports:
+Enhances: 
+Description: Convenience functions and workaround for bugs in rmongodb
+License: GPL (>= 2)
+URL: None
+biocViews:
