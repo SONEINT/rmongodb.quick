@@ -2,11 +2,16 @@ dataframe2bson=function(dataframe){
   
   
 # Put each row to a seperate list item
-data_list = apply(dataframe,1,as.list)
+#data_list = apply(dataframe,1,as.list)   # Cannot be done like this because then the data type is coersed
+
+  data_list <- vector("list", nrow(dataframe)) 
+  for( i in 1:nrow(dataframe) ) data_list[[i]] <- as.list(dataframe[i, ])
+
+
 
 # Convert any numbers saved as string to numeric adata
 data_list = lapply(data_list,function(x) {    lapply(x,function(y) {
-                                                                      if (suppressWarnings(!is.na(as.numeric(y)))) {as.numeric(y)}else{y}
+                                                                      if (    suppressWarnings(!is.na(as.numeric(y)))   & !is.integer(y)    ) {as.numeric(y)}else{y}
                                                     })
                   })
 
@@ -17,7 +22,6 @@ bson_data = lapply(data_list,function(x){
                                           buf <- mongo.bson.buffer.create()
                                           
                                           lapply(x,function(y) {
-
                                                                     mongo.bson.buffer.append(buf, names[idx], y)
 
                                                                   idx<<- idx+1
