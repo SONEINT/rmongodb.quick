@@ -17,7 +17,9 @@ bson_data = lapply(data_list,function(x){
                                           buf <- mongo.bson.buffer.create()
                                           
                                           lapply(x,function(y) {
-                                                                  mongo.bson.buffer.append(buf, names[idx], y)
+
+                                                                    mongo.bson.buffer.append(buf, names[idx], y)
+
                                                                   idx<<- idx+1
                                                 })
                                           
