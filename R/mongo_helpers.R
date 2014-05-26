@@ -38,7 +38,7 @@ return(bson_data)
 
 
 
-mongo.find.all2=function(mongo, ns, query, fields=mongo.bson.empty(),   data.frame=FALSE, mongo.oid2character = FALSE){
+mongo.find.all2=function(mongo, ns, query=mongo.bson.empty(), fields=mongo.bson.empty(),   data.frame=FALSE, mongo.oid2character = FALSE){
   
   
   if(data.frame==T & mongo.oid2character == F){warning("You won't get correct id in your data.frame if you don't set mongo.oid2character to TRUE")}
