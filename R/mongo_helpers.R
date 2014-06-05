@@ -11,7 +11,7 @@ dataframe2bson=function(dataframe){
 
 # Convert any numbers saved as string to numeric adata
 data_list = lapply(data_list,function(x) {    lapply(x,function(y) {
-                                                                      if (    suppressWarnings(!is.na(as.numeric(y)))   & !is.integer(y)    ) {as.numeric(y)}else{y}
+                                                                      if (    suppressWarnings(!is.na(as.numeric(y)))   & !is.integer(y) & !(class(y)[1]=="POSIXct")  ) {as.numeric(y)}else{y}
                                                     })
                   })
 
@@ -59,7 +59,7 @@ while (mongo.cursor.next(cursor)){
 if(mongo.oid2character){
   temp = lapply(temp,function(x) {
                                     lapply(x,function(y){
-                                                            if(class(y)=="mongo.oid"){as.character.mongo.oid(y)}else{y}  
+                                                            if(class(y)[1]=="mongo.oid"){as.character.mongo.oid(y)}else{y}  
                                                         }
                                           )
                                   }
