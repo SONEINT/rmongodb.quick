@@ -69,7 +69,8 @@ if(mongo.oid2character){
 
 if(data.frame){
       
-  temp = do.call(rbind.data.frame,temp)
+  temp = do.call(rbind,           lapply(temp, function(x) data.frame(x,stringsAsFactors=F))         )
+  
   colnames=colnames(temp)
   select = (colnames=="X_id")
   colnames[select]="_id"
