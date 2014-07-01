@@ -56,6 +56,8 @@ while (mongo.cursor.next(cursor)){
 }
 
 
+
+
 if(mongo.oid2character){
   temp = lapply(temp,function(x) {
                                     lapply(x,function(y){
@@ -71,10 +73,12 @@ if(data.frame){
       
   temp = do.call(rbind,           lapply(temp, function(x) data.frame(x,stringsAsFactors=F))         )
   
+  if(!is.null(temp)) {
   colnames=colnames(temp)
   select = (colnames=="X_id")
   colnames[select]="_id"
   colnames(temp) = colnames
+  }
 }
 
 
